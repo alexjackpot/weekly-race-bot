@@ -1,0 +1,56 @@
+name: Weekly race card
+
+on:
+  schedule:
+    # Every Saturday 10:17 Bangkok time (03:17 UTC). Off the hour on purpose:
+    # GitHub delays or drops on-the-hour crons when it is busy.
+    - cron: '17 3 * * 6'
+  workflow_dispatch:
+    inputs:
+      send_to:
+        description: 'Slack member ID to send to (blank = Mathis). Put your own ID to test.'
+        required: false
+      week:
+        description: 'Monday of the week, YYYY-MM-DD (blank = next Monday)'
+        required: false
+      variant:
+        description: 'Colour 1-6 (blank = this week in the rotation)'
+        required: false
+
+jobs:
+  card:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+
+      - name: Render on jackpotcomps.netlify.app
+        id: render
+        env:
+          TZ_ID: Asia/Bangkok
+          WEEK: ${{ inputs.week }}
+          VARIANT: ${{ inputs.variant }}
+          ROTATION: ${{ vars.ROTATION }}
+        run: echo "json=$(node render.js)" >> "$GITHUB_OUTPUT"
+
+      - name: Send on Slack
+        env:
+          SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+          SLACK_TO: ${{ inputs.send_to || vars.SLACK_TO }}
+          SLACK_MESSAGE: ${{ vars.SLACK_MESSAGE }}
+          RESULT: ${{ steps.render.outputs.json }}
+        run: node send.js "$RESULT"
+
+      # Kept 30 days on the run page, in case the Slack step fails.
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: weekly-race
+          path: out/
+          retention-days: 30
