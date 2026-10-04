@@ -1,0 +1,12 @@
+{
+  "name": "weekly-race-bot",
+  "private": true,
+  "description": "Renders the weekly race card on jackpotcomps.netlify.app and DMs it on Slack every Saturday",
+  "scripts": {
+    "render": "node render.js",
+    "dry-run": "node send.js \"$(node render.js)\""
+  },
+  "dependencies": {
+    "playwright": "^1.48.2"
+  }
+}
