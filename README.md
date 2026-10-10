@@ -11,6 +11,14 @@ at 11:00. Nobody's computer needs to be on.
 The bot clicks the real buttons on the live site, so any change deployed to the builder
 shows up in the next card.
 
+## Google Drive
+
+`drive/Code.gs` is a Google Apps Script that runs on Google's servers under Alex's Google
+account. Every Saturday at 09:00 and 10:00 Bangkok, it copies `latest/` into a "Weekly race
+card" Drive folder, shared by link, and moves the previous week into "Previous weeks". To set
+it up, paste it into a new project at script.google.com, run `setup` once and allow access.
+The log prints the folder link.
+
 ## The Slack reminder
 
 Set once in Slack, in any conversation:

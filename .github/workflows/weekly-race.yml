@@ -52,11 +52,15 @@ jobs:
         run: |
           png=$(jq -r .png <<<"$RESULT"); zip=$(jq -r .zip <<<"$RESULT")
           title=$(basename "$png" .png)
-          img=$(jq -rn --arg s "$(basename "$png")" '$s|@uri')
+          raw="https://github.com/$GITHUB_REPOSITORY/raw/main/latest"
+          enc() { jq -rn --arg s "$(basename "$1")" '$s|@uri'; }
           colour=$(jq -r '"\(.variant) — \(.themeName)"' <<<"$RESULT")
           rm -rf latest && mkdir latest && cp "$png" "$zip" latest/
-          printf '# %s\n\n![%s](%s)\n\nColour %s. To download, click a file above, then the download button (↓).\n' \
-            "$title" "$title" "$img" "$colour" > latest/README.md
+          # Direct download links: GitHub's own file view errors on these files.
+          printf '# %s\n\n**[Download PNG](%s) · [Download zip](%s)**\n\n[![%s](%s)](%s)\n\nColour %s.\n' \
+            "$title" "$raw/$(enc "$png")" "$raw/$(enc "$zip")" "$title" "$raw/$(enc "$png")" "$raw/$(enc "$png")" "$colour" > latest/README.md
+          # Read by the Google Apps Script that copies the card into Drive (drive/Code.gs).
+          jq '{week, name, variant, themeName, png: (.png | split("/") | last), zip: (.zip | split("/") | last)}' <<<"$RESULT" > latest/latest.json
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A latest
