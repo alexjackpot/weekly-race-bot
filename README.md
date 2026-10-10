@@ -9,6 +9,11 @@ The bot clicks the real buttons on the live site, so any change you deploy to th
 shows up in the next card. A test render of Oct 5-11 in colour 2 matched your hand-made
 export pixel for pixel.
 
+`fonts/` holds the same Poppins files as your Mac. The builder draws the date pill in
+Poppins but only gets it from the system: its Google Fonts `@import` comes after the
+`@font-face` rules, so browsers ignore it. The bot installs these files first and refuses
+to send if Poppins still isn't there.
+
 ## Colours
 
 One colour per week, using the builder's 1-6 switch:

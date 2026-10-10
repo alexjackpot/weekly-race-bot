@@ -56,6 +56,16 @@ async function main() {
     return px[3] > 0;
   }, null, { timeout: 60000 });
 
+  // The date pill is drawn in Poppins, which the site only gets from the system
+  // (its Google Fonts @import sits after @font-face, so browsers drop it). If
+  // Poppins is missing the pill silently falls back, so refuse to send that.
+  const hasPoppins = await page.evaluate(() => {
+    const c = document.createElement('canvas').getContext('2d');
+    const w = f => { c.font = f; return c.measureText('OCTOBER 12 - 18').width; };
+    return w('700 26px Poppins, monospace') !== w('700 26px monospace');
+  });
+  if (!hasPoppins) throw new Error('Poppins is not installed, the date pill would use the wrong font');
+
   await page.click('button.tab[data-tab="weekly"]');
   await page.fill('#weekly-start-date', monday);
   await page.dispatchEvent('#weekly-start-date', 'change');

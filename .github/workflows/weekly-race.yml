@@ -29,6 +29,9 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium
+      # Same Poppins files as Alex's Mac: the builder relies on it being installed.
+      - name: Install Poppins
+        run: mkdir -p ~/.local/share/fonts && cp fonts/*.otf ~/.local/share/fonts/ && fc-cache -f
 
       - name: Render on jackpotcomps.netlify.app
         id: render
