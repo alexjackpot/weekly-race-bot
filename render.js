@@ -7,7 +7,7 @@
 //   node render.js 2026-10-12 3         a given Monday and colour (1-6)
 // (or the same through the WEEK / VARIANT env vars, which is how CI passes them)
 //
-// Prints a JSON line { week, variant, png, zip } for send.js to pick up.
+// Prints a JSON line { week, variant, png, zip } for the workflow to publish.
 
 const { chromium } = require('playwright');
 const path = require('path');

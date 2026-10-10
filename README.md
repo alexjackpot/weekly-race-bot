@@ -1,59 +1,55 @@
 # Weekly race bot
 
-Every Saturday at 10:17 (Bangkok time), GitHub opens https://jackpotcomps.netlify.app/ in a
-headless browser and goes through the same steps you'd do by hand: Weekly Race Card tab →
-next Monday → **Use these dates** → this week's colour → **⬇ PNG** + **⬇ .zip**. Then it
-DMs both files to Mathis on Slack. Your Mac doesn't need to be on.
+**This week's card: [latest/](latest/)**
 
-The bot clicks the real buttons on the live site, so any change you deploy to the builder
-shows up in the next card. A test render of Oct 5-11 in colour 2 matched your hand-made
-export pixel for pixel.
+Every Saturday at 08:17 (Bangkok time), GitHub opens https://jackpotcomps.netlify.app/ in a
+headless browser and goes through the same steps as by hand: Weekly Race Card tab → next
+Monday → **Use these dates** → this week's colour → **⬇ PNG** + **⬇ .zip**. It then replaces
+the contents of [`latest/`](latest/) with the two files. A Slack reminder sends that link
+at 11:00. Nobody's computer needs to be on.
 
-`fonts/` holds the same Poppins files as your Mac. The builder draws the date pill in
-Poppins but only gets it from the system: its Google Fonts `@import` comes after the
-`@font-face` rules, so browsers ignore it. The bot installs these files first and refuses
-to send if Poppins still isn't there.
+The bot clicks the real buttons on the live site, so any change deployed to the builder
+shows up in the next card.
+
+## The Slack reminder
+
+Set once in Slack, in any conversation:
+
+```
+/remind @Mathis "This week's race card (PNG + zip): https://github.com/alexjackpot/weekly-race-bot/tree/main/latest" every Saturday at 11:00
+```
 
 ## Colours
 
 One colour per week, using the builder's 1-6 switch:
 Oct 5 **2 Gold** → Oct 12 **3 Brand Violet** → Oct 19 **4 Indigo** → Oct 26 **5 Azure** →
 Nov 2 **6 Royal Deep** → Nov 9 **1 Midnight** → and round again.
-To use fewer colours, set the repo variable `ROTATION`, e.g. `1,2,6`.
+To use fewer colours, set the repo variable `ROTATION` (Settings → Secrets and variables →
+Actions → Variables), e.g. `1,2,6`.
 
-## One-time setup
+## Fonts
 
-1. **Slack token.** Go to https://api.slack.com/apps → *Create New App* → *From scratch*,
-   name it "Weekly race", and pick the Jackpot workspace. Under *OAuth & Permissions* →
-   **User Token Scopes**, add `files:write` and `im:write`. Click *Install to Workspace*
-   and copy the **User OAuth Token** (`xoxp-…`). A user token posts as you, not as a bot.
-   If the workspace makes you request approval, an admin has to approve it.
-2. **Mathis's member ID.** In Slack, open his profile → ⋮ → *Copy member ID* (`U…`).
-   Copy yours too, so you can send a test to yourself.
-3. **GitHub repo** (private). Settings → Secrets and variables → Actions:
-   - Secret `SLACK_TOKEN` = the `xoxp-…` token
-   - Variable `SLACK_TO` = Mathis's member ID
-   - optional variable `SLACK_MESSAGE`, default `Weekly race card for {range}`
-     (`{range}` becomes e.g. `Oct 12-18`, `{theme}` becomes the colour name)
+`fonts/` holds Poppins (SIL Open Font License, see `fonts/OFL.txt`). The builder draws the
+date pill in Poppins but only gets it from the system: its Google Fonts `@import` comes
+after the `@font-face` rules, so browsers ignore it. The bot installs these files first and
+stops with an error rather than publish a card in the wrong font.
 
-## Test it
+## Re-run or fix a week
 
-On GitHub, go to Actions → *Weekly race card* → **Run workflow**, and put your own member
-ID in *send_to*. You can do this from your phone's browser too. Leave *send_to* blank to
-send to Mathis.
-
-Each run also keeps the PNG and the zip for 30 days under the run's *Artifacts*. If a run
-fails, GitHub emails you.
+Actions → *Weekly race card* → **Run workflow**. Leave the fields blank for next week, or
+set a Monday (`2026-10-19`) and/or a colour (1-6). Each run replaces `latest/`. If a run
+fails, GitHub emails the repo owner.
 
 ## Change the day or time
 
-Edit the `cron` line in `.github/workflows/weekly-race.yml`. It uses UTC, which is
-Bangkok time minus 7 hours. `'17 3 * * 6'` means Saturday 03:17 UTC.
+Edit the `cron` line in `.github/workflows/weekly-race.yml`. It uses UTC, which is Bangkok
+time minus 7 hours: `'17 1 * * 6'` means Saturday 01:17 UTC. Keep it well ahead of the
+reminder, because GitHub sometimes starts scheduled runs late.
 
 ## Run it locally
 
 ```bash
 npm install && npx playwright install chromium
-npm run dry-run           # renders next week into out/ and prints what it would send
+node render.js                 # next week, this week's colour, into out/
 node render.js 2026-10-12 3
 ```
