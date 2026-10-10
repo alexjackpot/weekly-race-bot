@@ -5,26 +5,27 @@
 Every Saturday at 08:17 (Bangkok time), GitHub opens https://jackpotcomps.netlify.app/ in a
 headless browser and goes through the same steps as by hand: Weekly Race Card tab → next
 Monday → **Use these dates** → this week's colour → **⬇ PNG** + **⬇ .zip**. It then replaces
-the contents of [`latest/`](latest/) with the two files. A Slack reminder sends that link
-at 11:00. Nobody's computer needs to be on.
+the contents of [`latest/`](latest/) with the two files. A Google Apps Script then copies
+them into a shared Drive folder, and a Slack reminder sends Mathis that folder at 11:00.
+Nobody's computer needs to be on.
 
 The bot clicks the real buttons on the live site, so any change deployed to the builder
 shows up in the next card.
 
 ## Google Drive
 
-`drive/Code.gs` is a Google Apps Script that runs on Google's servers under Alex's Google
-account. Every Saturday at 09:00 and 10:00 Bangkok, it copies `latest/` into a "Weekly race
+`drive/Code.gs` is a Google Apps Script that runs on Google's servers under alex@jackpot.bet,
+in the "Weekly race card" project at script.google.com. Every Saturday at 09:00 and 10:00 Bangkok, it copies `latest/` into a "Weekly race
 card" Drive folder, shared by link, and moves the previous week into "Previous weeks". To set
 it up, paste it into a new project at script.google.com, run `setup` once and allow access.
 The log prints the folder link.
 
 ## The Slack reminder
 
-Set once in Slack, in any conversation:
+Set once in Slack, in any conversation, with the Drive folder link that `setup` printed:
 
 ```
-/remind @Mathis "This week's race card (PNG + zip): https://github.com/alexjackpot/weekly-race-bot/tree/main/latest" every Saturday at 11:00
+/remind @Mathis "This week's race card (PNG + zip): <Drive folder link>" every Saturday at 11:00
 ```
 
 ## Colours
