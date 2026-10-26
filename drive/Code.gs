@@ -2,9 +2,10 @@
  * Weekly race card → Google Drive.
  *
  * Runs on Google's servers under your Google account, so no computer needs to be on.
- * Every Saturday at 09:00 and 10:00 (Bangkok), it copies the PNG + zip that the
- * GitHub job published to alexjackpot/weekly-race-bot/latest into a "Weekly race card"
- * folder. Last week's files move to its "Previous weeks" subfolder.
+ * Every Saturday, hourly from 09:00 to 20:00 (Bangkok), it looks for the PNG + zip that
+ * the GitHub job published to alexjackpot/weekly-race-bot/latest and copies them into a
+ * "Weekly race card" folder. Last week's files move to its "Previous weeks" subfolder.
+ * GitHub starts scheduled jobs late (4.5 h on 24 Oct 2026), so the hourly retries matter.
  *
  * Setup: paste this file into a new project at script.google.com, choose `setup`
  * in the toolbar, click Run and allow access. The log prints the folder link for
@@ -13,13 +14,15 @@
 const TZ = 'Asia/Bangkok';
 const LATEST = 'https://raw.githubusercontent.com/alexjackpot/weekly-race-bot/main/latest/';
 const FOLDER_NAME = 'Weekly race card';
+// Saturday retries, Bangkok hours. Each run is a no-op once the card is in the folder.
+const HOURS = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
 
 function setup() {
   const folder = folder_();
   // Anyone with the link can view and download: Mathis doesn't need to sign in.
   folder.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
   ScriptApp.getProjectTriggers().forEach(t => ScriptApp.deleteTrigger(t));
-  [9, 10].forEach(hour => ScriptApp.newTrigger('copyLatestCard').timeBased()
+  HOURS.forEach(hour => ScriptApp.newTrigger('copyLatestCard').timeBased()
     .onWeekDay(ScriptApp.WeekDay.SATURDAY).atHour(hour).inTimezone(TZ).create());
   copyLatestCard(true);
   console.log('Folder for the Slack reminder: ' + folder.getUrl());
@@ -32,10 +35,10 @@ function copyLatestCard(force) {
   if (names.every(n => folder.getFilesByName(n).hasNext())) return;   // already copied
 
   // GitHub still showing a week that has already started means its Saturday job
-  // hasn't published yet. The 09:00 run waits for the 10:00 one; at 10:00 it fails,
+  // hasn't published yet. Earlier runs leave it to the next hour; the last one fails,
   // and Google emails you.
   if (force !== true && info.week < nextMonday_()) {
-    if (Number(Utilities.formatDate(new Date(), TZ, 'H')) < 10) return;
+    if (Number(Utilities.formatDate(new Date(), TZ, 'H')) < HOURS[HOURS.length - 1]) return;
     throw new Error('GitHub still has ' + info.name + ': the Saturday job did not publish a new card.');
   }
 

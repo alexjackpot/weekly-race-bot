@@ -15,8 +15,8 @@ shows up in the next card.
 ## Google Drive
 
 `drive/Code.gs` is a Google Apps Script that runs on Google's servers under alex@jackpot.bet,
-in the "Weekly race card" project at script.google.com. Every Saturday at 09:00 and 10:00 Bangkok, it copies `latest/` into a "Weekly race
-card" Drive folder, shared by link, and moves the previous week into "Previous weeks". To set
+in the "Weekly race card" project at script.google.com. Every Saturday, hourly from 09:00 to 20:00 Bangkok, it copies `latest/` into a "Weekly race
+card" Drive folder once GitHub has published the new week, shared by link, and moves the previous week into "Previous weeks". To set
 it up, paste it into a new project at script.google.com, run `setup` once and allow access.
 The log prints the folder link.
 
@@ -51,9 +51,9 @@ fails, GitHub emails the repo owner.
 
 ## Change the day or time
 
-Edit the `cron` line in `.github/workflows/weekly-race.yml`. It uses UTC, which is Bangkok
-time minus 7 hours: `'17 1 * * 6'` means Saturday 01:17 UTC. Keep it well ahead of the
-reminder, because GitHub sometimes starts scheduled runs late.
+Edit the `cron` lines in `.github/workflows/weekly-race.yml`. They use UTC, which is Bangkok
+time minus 7 hours: `'17 22 * * 5'` means Friday 22:17 UTC, Saturday 05:17 Bangkok. Keep them
+well ahead of the reminder: GitHub starts scheduled runs late, by hours on a bad day.
 
 ## Run it locally
 

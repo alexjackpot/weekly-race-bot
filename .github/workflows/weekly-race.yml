@@ -2,9 +2,13 @@ name: Weekly race card
 
 on:
   schedule:
-    # Every Saturday 08:17 Bangkok time (01:17 UTC), well before the 11:00 Slack
-    # reminder: GitHub often starts scheduled runs late (the first one was 13 min late).
-    - cron: '17 1 * * 6'
+    # Saturday 05:17 Bangkok (Friday 22:17 UTC), then two backups at 07:17 and 09:17
+    # Bangkok, all well before the 11:00 Slack reminder. GitHub starts scheduled runs
+    # late and unpredictably (13 min on 10 Oct 2026, 4 h 30 on 24 Oct): a backup run
+    # is a no-op once latest/ already holds this week's files.
+    - cron: '17 22 * * 5'
+    - cron: '17 0 * * 6'
+    - cron: '17 2 * * 6'
   workflow_dispatch:
     inputs:
       week:
