@@ -1,7 +1,7 @@
-# Weekly Wager Race - Oct 26-Nov 1
+# Weekly Wager Race - Nov 2-8
 
-**[Download PNG](https://github.com/alexjackpot/weekly-race-bot/raw/main/latest/Weekly%20Wager%20Race%20-%20Oct%2026-Nov%201.png) · [Download zip](https://github.com/alexjackpot/weekly-race-bot/raw/main/latest/Weekly%20Wager%20Race%20-%20Oct%2026-Nov%201.zip)**
+**[Download PNG](https://github.com/alexjackpot/weekly-race-bot/raw/main/latest/Weekly%20Wager%20Race%20-%20Nov%202-8.png) · [Download zip](https://github.com/alexjackpot/weekly-race-bot/raw/main/latest/Weekly%20Wager%20Race%20-%20Nov%202-8.zip)**
 
-[![Weekly Wager Race - Oct 26-Nov 1](https://github.com/alexjackpot/weekly-race-bot/raw/main/latest/Weekly%20Wager%20Race%20-%20Oct%2026-Nov%201.png)](https://github.com/alexjackpot/weekly-race-bot/raw/main/latest/Weekly%20Wager%20Race%20-%20Oct%2026-Nov%201.png)
+[![Weekly Wager Race - Nov 2-8](https://github.com/alexjackpot/weekly-race-bot/raw/main/latest/Weekly%20Wager%20Race%20-%20Nov%202-8.png)](https://github.com/alexjackpot/weekly-race-bot/raw/main/latest/Weekly%20Wager%20Race%20-%20Nov%202-8.png)
 
-Colour 5 — Azure.
+Colour 6 — Royal Deep.
