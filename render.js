@@ -1,10 +1,10 @@
 // Weekly race card, done the way Alex does it by hand on jackpotcomps.netlify.app:
-// Weekly Race Card tab → week start → "Use these dates" → colour 1-6 → ⬇ PNG + ⬇ .zip.
+// Weekly Race Card tab → week start → "Use these dates" → colour 1-5 → ⬇ PNG + ⬇ .zip.
 // It clicks the real buttons on the live site, so edits to the builder carry over.
 //
 //   node render.js                      next Monday, this week's colour
 //   node render.js 2026-10-12           a given Monday
-//   node render.js 2026-10-12 3         a given Monday and colour (1-6)
+//   node render.js 2026-10-12 3         a given Monday and colour (1-5)
 // (or the same through the WEEK / VARIANT env vars, which is how CI passes them)
 //
 // Prints a JSON line { week, variant, png, zip } for the workflow to publish.
@@ -17,11 +17,13 @@ const SITE = process.env.SITE_URL || 'https://jackpotcomps.netlify.app/';
 const TZ = process.env.TZ_ID || 'Asia/Bangkok';
 const OUT = path.resolve(process.env.OUT_DIR || 'out');
 
-// One colour per week (the builder's 1-6 switch), walking ROTATION one step a
+// One colour per week (the builder's 1-5 switch), walking ROTATION one step a
 // week. Week of Oct 5 2026 = ROTATION[0] = 2 Gold, the one Alex sent by hand.
-// Override with the ROTATION env var, e.g. "1,2,6" to only use those three.
+// Colour 6 (Royal Deep) was dropped from the builder on 1 Nov 2026; the order
+// below keeps every past week on the colour it actually shipped.
+// Override with the ROTATION env var, e.g. "1,2,5" to only use those three.
 const ANCHOR_MONDAY = '2026-10-05';
-const ROTATION = (process.env.ROTATION || '2,3,4,5,6,1').split(',').map(Number);
+const ROTATION = (process.env.ROTATION || '2,3,4,5,1').split(',').map(Number);
 
 function nextMonday(now = new Date()) {
   // Same rule as the builder's nextMondayDate(), evaluated in Alex's timezone.
@@ -41,7 +43,7 @@ function variantFor(monday) {
 async function main() {
   const monday = process.argv[2] || process.env.WEEK || nextMonday();
   const variant = Number(process.argv[3] || process.env.VARIANT || variantFor(monday));
-  if (!(variant >= 1 && variant <= 6)) throw new Error(`colour ${variant} is not 1-6`);
+  if (!(variant >= 1 && variant <= 5)) throw new Error(`colour ${variant} is not 1-5`);
   if (new Date(monday + 'T00:00:00Z').getUTCDay() !== 1) throw new Error(`${monday} is not a Monday`);
   fs.mkdirSync(OUT, { recursive: true });
 

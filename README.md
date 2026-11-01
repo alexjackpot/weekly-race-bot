@@ -30,11 +30,12 @@ Set once in Slack, in any conversation, with the Drive folder link that `setup` 
 
 ## Colours
 
-One colour per week, using the builder's 1-6 switch:
+One colour per week, using the builder's 1-5 switch:
 Oct 5 **2 Gold** → Oct 12 **3 Brand Violet** → Oct 19 **4 Indigo** → Oct 26 **5 Azure** →
-Nov 2 **6 Royal Deep** → Nov 9 **1 Midnight** → and round again.
+Nov 2 **1 Midnight** → Nov 9 **2 Gold** → and round again.
+Colour 6 (Royal Deep) was removed from the builder on 1 Nov 2026.
 To use fewer colours, set the repo variable `ROTATION` (Settings → Secrets and variables →
-Actions → Variables), e.g. `1,2,6`.
+Actions → Variables), e.g. `1,2,5`.
 
 ## Fonts
 
@@ -46,7 +47,7 @@ stops with an error rather than publish a card in the wrong font.
 ## Re-run or fix a week
 
 Actions → *Weekly race card* → **Run workflow**. Leave the fields blank for next week, or
-set a Monday (`2026-10-19`) and/or a colour (1-6). Each run replaces `latest/`. If a run
+set a Monday (`2026-10-19`) and/or a colour (1-5). Each run replaces `latest/`. If a run
 fails, GitHub emails the repo owner.
 
 ## Change the day or time

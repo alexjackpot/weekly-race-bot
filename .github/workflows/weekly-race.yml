@@ -15,7 +15,7 @@ on:
         description: 'Monday of the week, YYYY-MM-DD (blank = next Monday)'
         required: false
       variant:
-        description: 'Colour 1-6 (blank = this week in the rotation)'
+        description: 'Colour 1-5 (blank = this week in the rotation)'
         required: false
 
 permissions:
