@@ -1,7 +1,7 @@
-# Weekly Wager Race - Nov 9-15
+# Weekly Wager Race - Nov 16-22
 
-**[Download PNG](https://github.com/alexjackpot/weekly-race-bot/raw/main/latest/Weekly%20Wager%20Race%20-%20Nov%209-15.png) · [Download zip](https://github.com/alexjackpot/weekly-race-bot/raw/main/latest/Weekly%20Wager%20Race%20-%20Nov%209-15.zip)**
+**[Download PNG](https://github.com/alexjackpot/weekly-race-bot/raw/main/latest/Weekly%20Wager%20Race%20-%20Nov%2016-22.png) · [Download zip](https://github.com/alexjackpot/weekly-race-bot/raw/main/latest/Weekly%20Wager%20Race%20-%20Nov%2016-22.zip)**
 
-[![Weekly Wager Race - Nov 9-15](https://github.com/alexjackpot/weekly-race-bot/raw/main/latest/Weekly%20Wager%20Race%20-%20Nov%209-15.png)](https://github.com/alexjackpot/weekly-race-bot/raw/main/latest/Weekly%20Wager%20Race%20-%20Nov%209-15.png)
+[![Weekly Wager Race - Nov 16-22](https://github.com/alexjackpot/weekly-race-bot/raw/main/latest/Weekly%20Wager%20Race%20-%20Nov%2016-22.png)](https://github.com/alexjackpot/weekly-race-bot/raw/main/latest/Weekly%20Wager%20Race%20-%20Nov%2016-22.png)
 
-Colour 2 — Gold.
+Colour 3 — Brand Violet.
